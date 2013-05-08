@@ -1,7 +1,7 @@
 TurnPoint = Core.class(Sprite)
 
 function TurnPoint:init(px, py, index)
-	self.frame = Bitmap.new(Texture.new("turnPoint.png"))
+	self.frame = Bitmap.new(Texture.new("image/turnPoint.png"))
 	self:setPosition(px-8,py-8)
 	
 	self.index = index

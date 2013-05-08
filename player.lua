@@ -7,7 +7,7 @@ Player = Core.class(Sprite)
 
 function Player:init(path)
 	self.path = path
-	self.frame = Bitmap.new(Texture.new("print.png"))
+	self.frame = Bitmap.new(Texture.new("image/print.png"))
 	self.currentFrame = 0
 	self.maxFrame = table.getn(path)
 	--point = path[0]
