@@ -11,7 +11,7 @@ function Player:init(path)
 	self.currentFrame = 0
 	self.maxFrame = table.getn(path)
 	--point = path[0]
-	self:setPosition(self.path[0][0]-8,self.path[0][1]-8)
+	self:setPosition(self.path[1][1]-8,self.path[1][2]-8)
 	self:addChild(self.frame)
 	--print(table.getn(path))
 	self:addEventListener(Event.ENTER_FRAME, self.play, self)
@@ -19,7 +19,7 @@ end
 
 function Player:play(event)
 	
-	self:setPosition(self.path[self.currentFrame][0]-8, self.path[self.currentFrame][1]-8)
+	self:setPosition(self.path[self.currentFrame][1]-8, self.path[self.currentFrame][2]-8)
 	self.currentFrame = self.currentFrame + 1
 	--need to calculate speed
 	if self.currentFrame >= self.maxFrame then

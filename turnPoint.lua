@@ -20,6 +20,8 @@ function TurnPoint:addLine(from, to)
 	self.to = to
 end
 
+-- gideros does not support tapping now, so have to use another way to handle
+
 function TurnPoint:onMouseDown(event)
 
 	if self:hitTestPoint(event.x, event.y) then
@@ -31,6 +33,10 @@ function TurnPoint:onMouseDown(event)
 		event:stopPropagation()
 	end
 	
+end
+
+function TurnPoint:mergeLine()
+	return Route.new(self.from.from[1][1], self.from.from[1][2], self.to.to[1][1], self.to.to[1][2])
 end
 
 function TurnPoint:onMouseMove(event)

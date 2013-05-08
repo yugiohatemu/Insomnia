@@ -8,13 +8,22 @@ pointRemain = 5;
 local pointInfo = TextField.new(nil, "points remain "..pointRemain)
 pointInfo:setPosition(100,20)
 
-isDelete = false
-local deleteInfo = TextField.new(nil, "delete")
-deleteInfo:setPosition(200,20)
+-- enum
+local State = {CREATE = 1,  DELETE = 2}
+local gameState = State.CREATE
+
+local deleteButton = Button.new(Bitmap.new(Texture.new("image/delete.png")), Bitmap.new(Texture.new("image/turnPoint.png")))
+deleteButton:setPosition(200,20)
+deleteButton:addEventListener("delete", 
+	function()
+		gameState = State.DELETE
+	end
+)
+-- so need to overwrite the press event? 
 
 stage:addChild(info)
 stage:addChild(pointInfo)
-stage:addChild(deleteInfo)
+stage:addChild(deleteButton)
 
 -----
 local lastPoint = {20,250}
@@ -34,7 +43,7 @@ local lineList = {}
 local function onTouches(event)
 	--depends on state, but ignore that
 	--print("on Touch")
-	if pointRemain > 0 then
+	if pointRemain > 0  and gameState == State.CREATE then
 		--draw point
 		local aPoint = TurnPoint.new(event.touch.x, event.touch.y,7-pointRemain)
 		pointList[7-pointRemain] = aPoint
@@ -71,10 +80,32 @@ local function onTouches(event)
 		lastPoint[1],lastPoint[2] = event.touch.x, event.touch.y
 		pointInfo:setText("points remain "..pointRemain)
 		
-	else -- on delete mode
-		-- do hit test, get index
-		
-		-- then d
+	elseif gameState == State.DELETE then
+		i = 2
+		while i <= 7 do -- should be current count
+			if pointList[i]:hitTestPoint(event.x, event.y) then
+				-- add new line
+				aLine = pointList[i]:mergeLine()
+				pointList[i-1]:addLine(pointList[i-1].from, aLine)
+				pointList[i+1]:addLine(aLine, pointList[i+1].to)
+				
+				-- remove from list and stage
+				stage:removeChild(pointList[i].from)
+				stage:removeChild(pointList[i].to)
+				stage:removeChild(pointList[i])
+				
+				-- update point list by swaping
+				while i < 7 do
+					pointList[i] = pointList[ i + 1 ];
+					i = i + 1
+				end
+				-- update info
+				pointRemain = pointRemain + 1
+				pointInfo:setText("points remain "..pointRemain)
+				break
+			end
+			i = i + 1
+		end 
 	end
 	
 end
