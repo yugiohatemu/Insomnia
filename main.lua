@@ -51,9 +51,13 @@ local function onTouches(event)
 			
 			lineList[6 - pointRemain] = Route.new(lastPoint[1], lastPoint[2], event.touch.x, event.touch.y)
 			lineList[7 - pointRemain] = Route.new(event.touch.x, event.touch.y, 20, 250)
+			
 			aPoint:addLine(lineList[6 - pointRemain], lineList[7 - pointRemain])
 			stage:addChild(lineList[6 - pointRemain])
 			stage:addChild(lineList[7 - pointRemain])
+			
+			-- update the line link on prev line
+			pointList[6 - pointRemain]:addLine(lineList[5 - pointRemain], lineList[6 - pointRemain])
 			
 		end
 		

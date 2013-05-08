@@ -45,6 +45,9 @@ function TurnPoint:onMouseMove(event)
 		self.x0 = event.x
 		self.y0 = event.y
 
+		self.from:moveFromPoint(dx,dy)
+		self.to:moveToPoint(dx,dy)
+		
 		event:stopPropagation()
 	end
 	
