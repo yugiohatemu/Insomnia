@@ -1,30 +1,5 @@
 application:setOrientation(Application.LANDSCAPE_LEFT) 
 
-isPlaying = false
-local info = TextField.new(nil, "pause")
-info:setPosition(40, 20)
-
-pointRemain = 5;
-local pointInfo = TextField.new(nil, "points remain "..pointRemain)
-pointInfo:setPosition(100,20)
-
--- enum
-local State = {CREATE = 1,  DELETE = 2}
-local gameState = State.CREATE
-
-local deleteButton = Button.new(Bitmap.new(Texture.new("image/delete.png")), Bitmap.new(Texture.new("image/turnPoint.png")))
-deleteButton:setPosition(200,20)
-deleteButton:addEventListener("delete", 
-	function()
-		gameState = State.DELETE
-	end
-)
--- so need to overwrite the press event? 
-
-stage:addChild(info)
-stage:addChild(pointInfo)
-stage:addChild(deleteButton)
-
 -----
 local lastPoint = {20,250}
 local path = {}
@@ -36,6 +11,47 @@ pointList[1] = TurnPoint.new(20,250,1)
 stage:addChild(pointList[1])
 
 local lineList = {}
+
+isPlaying = false
+local info = TextField.new(nil, "pause")
+info:setPosition(40, 20)
+
+pointRemain = 5;
+local pointInfo = TextField.new(nil, "points remain "..pointRemain)
+pointInfo:setPosition(100,20)
+
+-- enum
+local State = {CREATE = 1,  RESET = 2}
+local gameState = State.CREATE
+
+local resetButton = Button.new(Bitmap.new(Texture.new("image/delete.png")), Bitmap.new(Texture.new("image/turnPoint.png")))
+resetButton:setPosition(200,20)
+resetButton:addEventListener("click", 
+	function()
+	--gameState = State.RESET
+		-- remove line
+		i = 1
+		while lineList[i]  do
+			stage:removeChild(lineList[i])
+			i = i + 1
+		end
+		-- remove point
+		i = 2
+		while pointList[i] do
+			stage:removeChild(pointList[i])
+			i = i + 1
+		end
+		-- reset 
+		pointRemain = 5
+	end
+)
+-- so need to overwrite the press event? 
+
+stage:addChild(info)
+stage:addChild(pointInfo)
+stage:addChild(resetButton)
+
+
 
 -- change the way point press work first
 -- so need to have a array to remeber points?
@@ -80,32 +96,6 @@ local function onTouches(event)
 		lastPoint[1],lastPoint[2] = event.touch.x, event.touch.y
 		pointInfo:setText("points remain "..pointRemain)
 		
-	elseif gameState == State.DELETE then
-		i = 2
-		while i <= 7 do -- should be current count
-			if pointList[i]:hitTestPoint(event.x, event.y) then
-				-- add new line
-				aLine = pointList[i]:mergeLine()
-				pointList[i-1]:addLine(pointList[i-1].from, aLine)
-				pointList[i+1]:addLine(aLine, pointList[i+1].to)
-				
-				-- remove from list and stage
-				stage:removeChild(pointList[i].from)
-				stage:removeChild(pointList[i].to)
-				stage:removeChild(pointList[i])
-				
-				-- update point list by swaping
-				while i < 7 do
-					pointList[i] = pointList[ i + 1 ];
-					i = i + 1
-				end
-				-- update info
-				pointRemain = pointRemain + 1
-				pointInfo:setText("points remain "..pointRemain)
-				break
-			end
-			i = i + 1
-		end 
 	end
 	
 end
@@ -158,4 +148,30 @@ stage:addEventListener(Event.TOUCHES_END, onTouches)
 	end
 	pastX, pastY = event.touch.x, event.touch.y
 
-end --]]
+end 
+i = 2
+		while i < 7 do -- should be current count
+			if pointList[i]:hitTestPoint(event.touch.x, event.touch.y) then
+				-- add new line
+				aLine = pointList[i]:mergeLine()
+				pointList[i-1]:addLine(pointList[i-1].from, aLine)
+				pointList[i+1]:addLine(aLine, pointList[i+1].to)
+				
+				-- remove from list and stage
+				stage:removeChild(pointList[i].from)
+				stage:removeChild(pointList[i].to)
+				stage:removeChild(pointList[i])
+				
+				-- update point list by swaping
+				while i < 7 do
+					pointList[i] = pointList[ i + 1 ];
+					i = i + 1
+				end
+				-- update info
+				pointRemain = pointRemain + 1
+				pointInfo:setText("points remain "..pointRemain)
+				break
+			end
+			i = i + 1
+		end 
+--]]

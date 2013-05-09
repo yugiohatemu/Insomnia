@@ -4,7 +4,7 @@ function TurnPoint:init(px, py, index)
 	self.frame = Bitmap.new(Texture.new("image/turnPoint.png"))
 	self:setPosition(px-8,py-8)
 	
-	self.index = index
+	--self.index = index
 	
 	self:addChild(self.frame)
 	self.isFocus = false
@@ -36,6 +36,7 @@ function TurnPoint:onMouseDown(event)
 end
 
 function TurnPoint:mergeLine()
+	print(self.from.from[1][1], self.from.from[1][2], self.to.to[1][1], self.to.to[1][2])
 	return Route.new(self.from.from[1][1], self.from.from[1][2], self.to.to[1][1], self.to.to[1][2])
 end
 
