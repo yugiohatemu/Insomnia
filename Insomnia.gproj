@@ -3,6 +3,7 @@
   <imageScales/>
  </properties>
  <folder name="image">
+  <file source="image/z.png"/>
   <file source="image/play_on.png"/>
   <file source="image/delete.png"/>
   <file source="image/turnPoint.png"/>
@@ -12,5 +13,6 @@
  <file source="main.lua"/>
  <file source="player.lua"/>
  <file source="route.lua"/>
+ <file source="sleep.lua"/>
  <file source="turnPoint.lua"/>
 </project>

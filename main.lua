@@ -24,8 +24,6 @@ playButton:addEventListener("click",
 	function()
 		aPlayer =  Player.new(pointList)
 		stage:addChild(aPlayer)
-		--
-		--afterward, remove it
 	end
 )
 
@@ -86,7 +84,6 @@ resetButton:addEventListener("click",
 )
 -- so need to overwrite the press event? 
 
---stage:addChild(info)
 stage:addChild(pointInfo)
 stage:addChild(resetButton)
 stage:addChild(playButton)
@@ -139,3 +136,7 @@ local function onTouches(event)
 end
 
 stage:addEventListener(Event.TOUCHES_END, onTouches)
+
+
+aSleep = Sleep.new(200, 200)
+stage:addChild(aSleep)
