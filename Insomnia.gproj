@@ -3,6 +3,7 @@
   <imageScales/>
  </properties>
  <folder name="image">
+  <file source="image/play_on.png"/>
   <file source="image/delete.png"/>
   <file source="image/turnPoint.png"/>
   <file source="image/print.png"/>

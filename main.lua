@@ -1,6 +1,10 @@
 application:setOrientation(Application.LANDSCAPE_LEFT) 
 
 -----
+pointRemain = 5;
+local pointInfo = TextField.new(nil, "points remain "..pointRemain)
+pointInfo:setPosition(100,20)
+
 local lastPoint = {20,250}
 local path = {}
 
@@ -12,13 +16,19 @@ stage:addChild(pointList[1])
 
 local lineList = {}
 
-isPlaying = false
-local info = TextField.new(nil, "pause")
-info:setPosition(40, 20)
+--local aPlayer = nil
+--isPlaying = false
+local playButton = Button.new(Bitmap.new(Texture.new("image/play_on.png")), Bitmap.new(Texture.new("image/play_on.png")))
+playButton:setPosition(40, 5)
+playButton:addEventListener("click",
+	function()
+		aPlayer =  Player.new(pointList)
+		stage:addChild(aPlayer)
+		--
+		--afterward, remove it
+	end
+)
 
-pointRemain = 5;
-local pointInfo = TextField.new(nil, "points remain "..pointRemain)
-pointInfo:setPosition(100,20)
 
 -- draw boundary
 local function drawBoundary ()
@@ -39,7 +49,7 @@ end
 
 local function isInBoundary ( x , y )
 	if x < application:getContentWidth() * 0.97 and x > application:getContentWidth() * 0.03
-		and y < application:getContentHeight() * 0.95 and y > application:getContentHeight() * 0.05 then
+		and y < application:getContentHeight() * 0.95 and y > application:getContentHeight() * 0.08 then
 		return true
 	end
 	return false
@@ -74,10 +84,10 @@ resetButton:addEventListener("click",
 )
 -- so need to overwrite the press event? 
 
-stage:addChild(info)
+--stage:addChild(info)
 stage:addChild(pointInfo)
 stage:addChild(resetButton)
-
+stage:addChild(playButton)
 
 -- change the way point press work first
 -- so need to have a array to remeber points?
@@ -126,32 +136,8 @@ local function onTouches(event)
 	
 end
 
-
-local aPlayer = nil
-
-local function playAnimation(event)
-	if isPlaying then
-		info:setText("play")
-		
-		aPlayer =  Player.new(path)
-		stage:addChild(aPlayer)
-		
-	else
-		info:setText("pause")
-		if aPlayer then
-			stage:removeChild(aPlayer)
-		else
-			aPlayer = nil
-		end
-	end
-	
-	isPlaying = not isPlaying
-	
-end
-
 stage:addEventListener(Event.TOUCHES_END, onTouches)
-
-
+--
 -- start main
 
 --touch to draw, but not so useful
