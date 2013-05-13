@@ -20,44 +20,32 @@ function Player:play(event)
 	
 	-- vertical line
 	if self.path[self.currentFrame]:getX() == self.path[nextFrame]:getX() then
+		local dy = 1
 		if self.path[self.currentFrame]:getY() < self.path[nextFrame]:getY() then
-			self:setPosition(self:getX() , self:getY() + self.speed )
-			if self:getY() >= self.path[nextFrame]:getY() then
-				self:setPosition( self.path[nextFrame]:getX(), self.path[nextFrame]:getY())
-				self.currentFrame = nextFrame
-			end
-		else
-			self:setPosition(self:getX() , self:getY() - self.speed )
-			if self:getY() <= self.path[nextFrame]:getY() then
-
-				self:setPosition( self.path[nextFrame]:getX(), self.path[nextFrame]:getY())
-				self.currentFrame = nextFrame
-			end
+			dy = -1
+		end
+		self:setPosition(self:getX() , self:getY() + self.speed * dy )
+		if ( dy > 0 and self:getY() >= self.path[nextFrame]:getY()) or 
+			( dy < 0 and self:getY() <= self.path[nextFrame]:getY()) then
+			self:setPosition( self.path[nextFrame]:getX(), self.path[nextFrame]:getY())
+			self.currentFrame = nextFrame
 		end
 		
 	else
 		local slope = (self.path[nextFrame]:getY() - self.path[self.currentFrame]:getY()) / 
 			(self.path[nextFrame]:getX() - self.path[self.currentFrame]:getX())
-		self:setPosition(self:getX() - self.speed * slope , self:getY() + self.speed * slope)
-		--print(slope)
-		if slope > 0 then
-			if self:getX() <= self.path[nextFrame]:getX() or self:getY() >= self.path[nextFrame]:getY() then
-				self:setPosition( self.path[nextFrame]:getX(), self.path[nextFrame]:getY())
-				self.currentFrame = nextFrame
-			end
-		elseif slope == 0 then -- horizontal line
-			if self.path[nextFrame]:getX() < self.path[nextFrame]:getX() and self:getX() >= self.path[nextFrame]:getX() then
-				self:setPosition( self.path[nextFrame]:getX(), self.path[nextFrame]:getY())
-				self.currentFrame = nextFrame
-			elseif self.path[nextFrame]:getX() > self.path[nextFrame]:getX() and self:getX() <= self.path[nextFrame]:getX() then
-				self:setPosition( self.path[nextFrame]:getX(), self.path[nextFrame]:getY())
-				self.currentFrame = nextFrame
-			end
-		else
-			if self:getX() >= self.path[nextFrame]:getX() or self:getY() <= self.path[nextFrame]:getY() then
-				self:setPosition( self.path[nextFrame]:getX(), self.path[nextFrame]:getY())
-				self.currentFrame = nextFrame
-			end
+		local b = self.path[nextFrame]:getY() - self.path[nextFrame]:getX() * slope
+		
+		local dx = 1
+		if self.path[self.currentFrame]:getX() > self.path[nextFrame]:getX() then
+			dx = -1
+		end
+		self:setPosition( self:getX() + self.speed * dx  , slope * (self:getX() + self.speed * dx) + b)	
+		-- update
+		if (dx > 0 and self:getX() >= self.path[nextFrame]:getX()) or -- x increase
+			(dx < 0 and self:getX() <= self.path[nextFrame]:getX()) then 
+			self:setPosition( self.path[nextFrame]:getX(), self.path[nextFrame]:getY())
+			self.currentFrame = nextFrame
 		end
 	end
 	
