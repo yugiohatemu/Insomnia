@@ -20,12 +20,39 @@ pointRemain = 5;
 local pointInfo = TextField.new(nil, "points remain "..pointRemain)
 pointInfo:setPosition(100,20)
 
+-- draw boundary
+local function drawBoundary ()
+	local boarderWidth = application:getContentWidth()
+	local boarderHeight = application:getContentHeight()
+	local boarder = Shape.new()
+	boarder:setLineStyle(3, 0x66CC00)
+	boarder:beginPath()
+	boarder:moveTo(boarderWidth * 0.03 , boarderHeight * 0.08)
+	boarder:lineTo(boarderWidth * 0.03 , boarderHeight * 0.95)
+	boarder:lineTo(boarderWidth * 0.97 , boarderHeight * 0.95)
+	boarder:lineTo(boarderWidth * 0.97 , boarderHeight * 0.08)
+	boarder:closePath()
+	boarder:endPath()
+	
+	stage:addChild(boarder)
+end
+
+local function isInBoundary ( x , y )
+	if x < application:getContentWidth() * 0.97 and x > application:getContentWidth() * 0.03
+		and y < application:getContentHeight() * 0.95 and y > application:getContentHeight() * 0.05 then
+		return true
+	end
+	return false
+end
+
+drawBoundary()
+
 -- enum
 local State = {CREATE = 1,  RESET = 2}
 local gameState = State.CREATE
 
 local resetButton = Button.new(Bitmap.new(Texture.new("image/delete.png")), Bitmap.new(Texture.new("image/turnPoint.png")))
-resetButton:setPosition(200,20)
+resetButton:setPosition(200,5)
 resetButton:addEventListener("click", 
 	function()
 	--gameState = State.RESET
@@ -52,14 +79,13 @@ stage:addChild(pointInfo)
 stage:addChild(resetButton)
 
 
-
 -- change the way point press work first
 -- so need to have a array to remeber points?
 
 local function onTouches(event)
 	--depends on state, but ignore that
 	--print("on Touch")
-	if pointRemain > 0  and gameState == State.CREATE then
+	if pointRemain > 0  and gameState == State.CREATE and  isInBoundary(event.touch.x, event.touch.y) then
 		--draw point
 		local aPoint = TurnPoint.new(event.touch.x, event.touch.y,7-pointRemain)
 		pointList[7-pointRemain] = aPoint
