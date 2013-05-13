@@ -70,12 +70,14 @@ resetButton:addEventListener("click",
 		i = 1
 		while lineList[i]  do
 			stage:removeChild(lineList[i])
+			lineList[i] = nil
 			i = i + 1
 		end
 		-- remove point
 		i = 2
 		while pointList[i] do
 			stage:removeChild(pointList[i])
+			pointList[i] = nil
 			i = i + 1
 		end
 		-- reset 

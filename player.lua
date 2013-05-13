@@ -4,7 +4,8 @@ function Player:init(path)
 	self.path = path
 	self.frame = Bitmap.new(Texture.new("image/print.png"))
 	self.currentFrame = 1
-	self.maxFrame = table.getn(path)
+	self.maxFrame = table.getn(path) + 1
+	self.path[self.maxFrame] = self.path[1]
 	self.speed = 1.0
 	
 	self:setPosition(self.path[1]:getX(),self.path[1]:getY())
