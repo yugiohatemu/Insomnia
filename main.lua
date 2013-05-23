@@ -18,12 +18,15 @@ local lineList = {}
 
 --local aPlayer = nil
 --isPlaying = false
+-- player
+local aPlayer =  Player.new(pointList)
+stage:addChild(aPlayer)
+
 local playButton = Button.new(Bitmap.new(Texture.new("image/play_on.png")), Bitmap.new(Texture.new("image/play_on.png")))
 playButton:setPosition(40, 5)
 playButton:addEventListener("click",
 	function()
-		aPlayer =  Player.new(pointList)
-		stage:addChild(aPlayer)
+		aPlayer:startPlay(pointList)
 	end
 )
 

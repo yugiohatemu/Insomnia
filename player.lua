@@ -1,19 +1,25 @@
 Player = Core.class(Sprite)
 
 function Player:init(path)
-	self.path = path
 	self.frame = Bitmap.new(Texture.new("image/print.png"))
-	self.currentFrame = 1
-	self.maxFrame = table.getn(path) + 1
-	self.path[self.maxFrame] = self.path[1]
 	self.speed = 1.0
-	
-	self:setPosition(self.path[1]:getX(),self.path[1]:getY())
+	self:setPosition(path[1]:getX(),path[1]:getY())
 	self:addChild(self.frame)
 	
 	--print(table.getn(path))
-	self:addEventListener(Event.ENTER_FRAME, self.play, self)
+	
 end
+
+function Player:startPlay(path)
+	self.path = path
+	self.currentFrame = 1
+	self.maxFrame = table.getn(path) + 1
+	self.path[self.maxFrame] = self.path[1]
+	
+	self:addEventListener(Event.ENTER_FRAME, self.play, self)
+	
+end
+
 
 function Player:play(event)
 	-- need to get a slope?
@@ -54,6 +60,7 @@ function Player:play(event)
 	if self.currentFrame >= self.maxFrame then
 		print("pause")
 		self:removeEventListener(Event.ENTER_FRAME, self.play, self)
+		self.currentFrame = 0
 	end 
 end
 

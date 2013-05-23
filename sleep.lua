@@ -6,7 +6,7 @@ function Sleep:init(x, y)
 	self.radius = 20
 	self:setPosition(x, y)
 	
-	self.circle = Shape.new()
+	self.circle = Shape.new() -- position is related to the sprite it self
 	self.circle:setFillStyle(Shape.SOLID,0XCCFFCC, 0.5)
 	self.circle:setLineStyle(1, 0XCCFFCC)
 	self.circle:beginPath()
@@ -22,6 +22,10 @@ function Sleep:init(x, y)
 	
 end
 
-function isInZone(x , y )
+function Sleep:isInZone(x , y )
 	return (x - self:getX()) * (x - self:getX()) + (y - self:getY()) * (y - self:getY()) < self.radius * self.radius
+end
+
+function Sleep:isOverlap(x, y)
+	return self.frame:hitTestPoint(x, y)
 end

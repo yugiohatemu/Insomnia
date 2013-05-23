@@ -68,3 +68,7 @@ function TurnPoint:onMouseUp( event)
 	end
 	
 end
+
+function TurnPoint:isOverlap(x, y)
+	return self.frame:hitTestPoint(x,y)
+end
