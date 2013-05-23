@@ -53,6 +53,14 @@ function Player:play(event)
 	
 end
 
+function Player:getCurrentPath()
+	local p = {}
+	if self.currentFrame < self.maxFrame then
+		p[1], p[2] = self.path[self.currentFrame]:getX(), self.path[self.currentFrame]:getY()
+		p[3], p[4] = self.path[self.currentFrame+1]:getX(), self.path[self.currentFrame+1]:getY()
+	end
+	return p
+end
 
 function Player:pause()
 	--self:removeChild(self.frame)
