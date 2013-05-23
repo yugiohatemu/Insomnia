@@ -20,6 +20,9 @@ function Player:startPlay(path)
 	
 end
 
+function Player:addScene(sprite)
+	self.sprite = sprite
+end
 
 function Player:play(event)
 	-- need to get a slope?
@@ -56,8 +59,13 @@ function Player:play(event)
 		end
 	end
 	
+	-- do interaction
+	if self.sprite:isInteract(self) then
+		self.sprite:interact(self)
+	end
+	
 	--need to calculate speed
-	if self.currentFrame >= self.maxFrame then
+	if self.currentFrame >= self.maxFrame or self.speed <= 0 then
 		print("pause")
 		self:removeEventListener(Event.ENTER_FRAME, self.play, self)
 		self.currentFrame = 0

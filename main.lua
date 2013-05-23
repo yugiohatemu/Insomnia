@@ -16,12 +16,11 @@ stage:addChild(pointList[1])
 
 local lineList = {}
 
---local aPlayer = nil
---isPlaying = false
 -- player
 local aPlayer =  Player.new(pointList)
 stage:addChild(aPlayer)
 
+-- player Button
 local playButton = Button.new(Bitmap.new(Texture.new("image/play_on.png")), Bitmap.new(Texture.new("image/play_on.png")))
 playButton:setPosition(40, 5)
 playButton:addEventListener("click",
@@ -143,3 +142,5 @@ stage:addEventListener(Event.TOUCHES_END, onTouches)
 
 aSleep = Sleep.new(200, 200)
 stage:addChild(aSleep)
+aPlayer:addScene(aSleep)
+
