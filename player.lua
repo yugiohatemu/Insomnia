@@ -25,39 +25,18 @@ function Player:addScene(spriteList)
 end
 
 function Player:play(event)
-	-- need to get a slope?
 	local nextFrame = self.currentFrame + 1
+	local x1, y1 = self.path[self.currentFrame]:getX(), self.path[self.currentFrame]:getY()
+	local x2, y2 = self.path[nextFrame]:getX(), self.path[nextFrame]:getY()
+	local dis =  math.sqrt((x2 - x1) * (x2 - x1) + (y1 - y2) * (y1 - y2))
+	local dsin = (x2-x1) / dis 
+	local dcos = (y2-y1) / dis
+	self:setPosition(self:getX() + self.speed * dsin , self:getY() + self.speed * dcos)
 	
-	-- vertical line
-	if self.path[self.currentFrame]:getX() == self.path[nextFrame]:getX() then
-		local dy = 1
-		if self.path[self.currentFrame]:getY() < self.path[nextFrame]:getY() then
-			dy = -1
-		end
-		self:setPosition(self:getX() , self:getY() + self.speed * dy )
-		if ( dy > 0 and self:getY() >= self.path[nextFrame]:getY()) or 
-			( dy < 0 and self:getY() <= self.path[nextFrame]:getY()) then
-			self:setPosition( self.path[nextFrame]:getX(), self.path[nextFrame]:getY())
-			self.currentFrame = nextFrame
-		end
-		
-	else
-		local slope = (self.path[nextFrame]:getY() - self.path[self.currentFrame]:getY()) / 
-			(self.path[nextFrame]:getX() - self.path[self.currentFrame]:getX())
-		local b = self.path[nextFrame]:getY() - self.path[nextFrame]:getX() * slope
-		
-		local dx = 1
-		if self.path[self.currentFrame]:getX() > self.path[nextFrame]:getX() then
-			dx = -1
-		end
-		self:setPosition( self:getX() + self.speed * dx  , slope * (self:getX() + self.speed * dx) + b)	
-		-- update
-		if (dx > 0 and self:getX() >= self.path[nextFrame]:getX()) or -- x increase
-			(dx < 0 and self:getX() <= self.path[nextFrame]:getX()) then 
-			self:setPosition( self.path[nextFrame]:getX(), self.path[nextFrame]:getY())
-			self.currentFrame = nextFrame
-		end
-	end
+	if  (dsin >= 0 and self:getX() >= x2) or (dsin < 0 and self:getX() < x2)  then
+		self:setPosition(x2, y2)
+		self.currentFrame = nextFrame
+	end 
 	
 	for i = 1 , table.getn(self.spriteList), 1 do  
 		if self.spriteList[i]:isInteract(self) then
@@ -65,14 +44,15 @@ function Player:play(event)
 		end
 	end
 	
-	
 	--need to calculate speed
 	if self.currentFrame >= self.maxFrame or self.speed <= 0 then
 		print("pause")
 		self:removeEventListener(Event.ENTER_FRAME, self.play, self)
 		self.currentFrame = 0
 	end 
+	
 end
+
 
 function Player:pause()
 	--self:removeChild(self.frame)
