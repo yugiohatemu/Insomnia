@@ -41,5 +41,6 @@ function Sleep:interact(player)
 	-- can we expand the library?
 	player.speed = player.speed - self.slow
 	self.hasInteract = true
+	stage:removeChild(self)
 	-- need to remove the impact
 end
