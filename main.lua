@@ -139,8 +139,14 @@ end
 
 stage:addEventListener(Event.TOUCHES_END, onTouches)
 
+spriteList = {}
+for i = 1, 5, 1 do 
+	local boarderWidth = application:getContentWidth()
+	local boarderHeight = application:getContentHeight()
+	aSleep = Sleep.new(math.random(boarderWidth * 0.10, boarderWidth * 0.90), math.random(boarderHeight * 0.15, boarderHeight * 0.85))
+	spriteList[i] = aSleep
+	stage:addChild(aSleep)
+end
 
-aSleep = Sleep.new(200, 200)
-stage:addChild(aSleep)
-aPlayer:addScene(aSleep)
+aPlayer:addScene(spriteList)
 

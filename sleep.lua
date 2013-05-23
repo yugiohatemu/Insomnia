@@ -2,7 +2,7 @@ Sleep = Core.class(Sprite)
 
 function Sleep:init(x, y)
 	self.frame = Bitmap.new(Texture.new("image/z.png"))
-	self.slow = 0.8
+	self.slow = 0.3
 	self:setPosition(x, y)
 	self.hasInteract = false
 	-- for impulse, save for later

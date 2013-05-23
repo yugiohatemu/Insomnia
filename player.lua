@@ -20,8 +20,8 @@ function Player:startPlay(path)
 	
 end
 
-function Player:addScene(sprite)
-	self.sprite = sprite
+function Player:addScene(spriteList)
+	self.spriteList = spriteList
 end
 
 function Player:play(event)
@@ -59,10 +59,12 @@ function Player:play(event)
 		end
 	end
 	
-	-- do interaction
-	if self.sprite:isInteract(self) then
-		self.sprite:interact(self)
+	for i = 1 , table.getn(self.spriteList), 1 do  
+		if self.spriteList[i]:isInteract(self) then
+			self.spriteList[i]:interact(self)
+		end
 	end
+	
 	
 	--need to calculate speed
 	if self.currentFrame >= self.maxFrame or self.speed <= 0 then
