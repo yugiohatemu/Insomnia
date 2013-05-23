@@ -1,6 +1,6 @@
 LUAC = luac
 
-all: .tmp/turnPoint.lua.bin .tmp/sleep.lua.bin .tmp/route.lua.bin .tmp/player.lua.bin .tmp/main.lua.bin .tmp/button.lua.bin
+all: .tmp/turnPoint.lua.bin .tmp/sleep.lua.bin .tmp/route.lua.bin .tmp/player.lua.bin .tmp/main.lua.bin .tmp/magnet.lua.bin .tmp/button.lua.bin
 
 .tmp/turnPoint.lua.bin: turnPoint.lua
 	$(LUAC) -o ".tmp/turnPoint.lua.bin" "turnPoint.lua"
@@ -16,6 +16,9 @@ all: .tmp/turnPoint.lua.bin .tmp/sleep.lua.bin .tmp/route.lua.bin .tmp/player.lu
 
 .tmp/main.lua.bin: main.lua
 	$(LUAC) -o ".tmp/main.lua.bin" "main.lua"
+
+.tmp/magnet.lua.bin: magnet.lua
+	$(LUAC) -o ".tmp/magnet.lua.bin" "magnet.lua"
 
 .tmp/button.lua.bin: button.lua
 	$(LUAC) -o ".tmp/button.lua.bin" "button.lua"

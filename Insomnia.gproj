@@ -10,6 +10,7 @@
   <file source="image/print.png"/>
  </folder>
  <file source="button.lua"/>
+ <file source="magnet.lua"/>
  <file source="main.lua"/>
  <file source="player.lua"/>
  <file source="route.lua"/>

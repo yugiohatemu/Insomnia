@@ -148,5 +148,12 @@ for i = 1, 5, 1 do
 	stage:addChild(aSleep)
 end
 
+aZone = Zone.new(200,200)
+stage:addChild(aZone)
+
+spriteList[6] = aZone
+
 aPlayer:addScene(spriteList)
+
+
 

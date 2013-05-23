@@ -23,10 +23,6 @@ function Sleep:init(x, y)
 	
 end
 
-function Sleep:isInZone(x , y )
-	return (x - self:getX()) * (x - self:getX()) + (y - self:getY()) * (y - self:getY()) < self.radius * self.radius
-end
-
 -- if the sprite should interact with the player
 -- use half width or hieight?
 function Sleep:isInteract(player)
